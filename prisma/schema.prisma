@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -20,17 +19,21 @@ model User {
 }
 
 model Account {
-  id              String   @id @default(cuid())
-  plaidAccountId  String   @unique
-  institutionName String
-  accountName     String
-  accountType     String
-  balance         Decimal  @db.Decimal(12,2)
+  id                String   @id @default(cuid())
+  plaidAccountId    String   @unique
+  plaidItemId       String
+  plaidAccessToken  String
+  institutionName   String
+  accountName       String
+  accountType       String
+  balance           Decimal  @db.Decimal(12,2)
 
   userId String
   user   User @relation(fields: [userId], references: [id])
 
   transactions Transaction[]
+
+  @@index([plaidItemId])
 }
 
 model Transaction {
