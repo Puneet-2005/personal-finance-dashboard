@@ -211,7 +211,13 @@ http://localhost:3000
 ```
 
 ---
+## 📸 Screenshots
 
+- Login Page
+- Register Page
+- Dashboard
+- Plaid Bank Connection
+- Transactions View
 # 🔒 Security
 
 - Passwords are securely hashed using bcrypt.
