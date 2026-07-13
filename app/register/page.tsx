@@ -24,12 +24,15 @@ export default function RegisterPage() {
     });
 
     if (!res.ok) {
-      const data = await res.json();
-      setError(data.error ?? "Something went wrong");
-      setLoading(false);
-      return;
-    }
+  const text = await res.text();
 
+  console.log(text);
+
+  setError(text);
+
+  setLoading(false);
+  return;
+}
     const signInResult = await signIn("credentials", {
       email,
       password,
