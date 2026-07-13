@@ -1,80 +1,247 @@
-# Personal Finance Dashboard
+# 💰 Personal Finance Dashboard
 
-Link a bank account via Plaid (sandbox), sync and categorize transactions, and
-view a spending breakdown dashboard.
+A full-stack **Personal Finance Dashboard** built with **Next.js**, **TypeScript**, **Prisma**, **PostgreSQL**, **NextAuth**, and the **Plaid API**. The application allows users to securely register, log in, connect a bank account using Plaid Sandbox, and view financial information such as account balances and transactions through an intuitive dashboard.
 
-**Stack:** Next.js 16 (App Router) · NextAuth v5 (credentials) · Prisma ·
-PostgreSQL · Plaid API · Recharts
+---
 
-## Features
+## 🚀 Features
 
-- Email/password auth (NextAuth v5 + Prisma adapter)
-- Plaid Link flow: create link token → exchange public token → store linked
-  accounts
-- Transaction sync via `transactionsSync` (cursor-based, handles pagination)
-- Auto-categorization using Plaid's `personal_finance_category`
-- Dashboard: account balances, spending-by-category pie chart, recent
-  transactions table
+- 🔐 Secure user authentication with NextAuth
+- 🔒 Password hashing using bcrypt
+- 👤 User registration and login
+- 🏦 Connect bank accounts using Plaid Sandbox
+- 💳 View linked bank accounts
+- 💰 Display account balances
+- 📄 View recent transactions
+- 📊 Spending overview dashboard
+- 🗄️ PostgreSQL database with Prisma ORM
+- 📱 Responsive UI built with Tailwind CSS
 
-## Getting started
+---
 
-1. Copy `.env.example` to `.env` and fill in the values:
-   - `DATABASE_URL` — a Postgres connection string
-   - `AUTH_SECRET` — `openssl rand -base64 32`
-   - `PLAID_CLIENT_ID` / `PLAID_SECRET` — from the
-     [Plaid dashboard](https://dashboard.plaid.com/team/keys) (sandbox secret)
-   - `PLAID_ENV=sandbox`
+# 🛠 Tech Stack
 
-2. Install dependencies and set up the database:
+| Category | Technology |
+|----------|------------|
+| Frontend | Next.js 16, React, TypeScript |
+| Styling | Tailwind CSS |
+| Backend | Next.js API Routes |
+| Database | PostgreSQL |
+| ORM | Prisma |
+| Authentication | NextAuth |
+| Password Security | bcrypt |
+| Financial API | Plaid Sandbox |
 
-   ```bash
-   npm install
-   npx prisma migrate dev
-   ```
+---
 
-3. Run the dev server:
+# ⚙️ How the Project Works
 
-   ```bash
-   npm run dev
-   ```
+### 1️⃣ User Registration
 
-4. Go to [http://localhost:3000](http://localhost:3000), sign up, then click
-   **Connect a bank account (Sandbox)**. In Plaid's sandbox Link flow, use:
-   - Username: `user_good`
-   - Password: `pass_good`
+- Users create an account using their name, email, and password.
+- Passwords are securely hashed using **bcrypt** before being stored in PostgreSQL.
 
-   Then select any institution/accounts. This pulls in fake sandbox
-   transactions you can sync and browse on the dashboard.
+---
 
-## Project structure
+### 2️⃣ Authentication
+
+- Users log in using their registered email and password.
+- NextAuth validates the credentials.
+- A secure session is created.
+- Only authenticated users can access the dashboard.
+
+---
+
+### 3️⃣ Connect Bank Account
+
+- Users click **Connect Bank Account**.
+- Plaid Link opens in Sandbox mode.
+- Users authenticate with a sandbox bank.
+- Plaid generates a **Public Token**.
+- The backend exchanges it for an **Access Token**.
+- Account details are securely stored.
+
+---
+
+### 4️⃣ Fetch Financial Data
+
+The application retrieves:
+
+- Account balances
+- Bank accounts
+- Transaction history
+- Spending categories
+
+using the Plaid API and stores the data in PostgreSQL.
+
+---
+
+### 5️⃣ Dashboard
+
+The dashboard displays:
+
+- Linked bank accounts
+- Current balances
+- Recent transactions
+- Spending summary
+
+allowing users to monitor their finances from a single interface.
+
+---
+
+# 🏦 Plaid Sandbox Demo
+
+To test the application, use the following Plaid Sandbox credentials.
+
+## Phone Number
 
 ```
-app/
-  api/
-    auth/[...nextauth]/route.ts   # NextAuth v5 handlers
-    register/route.ts             # credentials signup
-    plaid/create-link-token/      # Link token for Plaid Link
-    plaid/exchange-public-token/  # exchanges public_token, stores accounts
-    plaid/sync-transactions/      # pulls + categorizes transactions
-  dashboard/page.tsx              # main dashboard (server component)
-  login/, register/               # auth pages
-components/
-  PlaidLinkButton.tsx             # client: launches Plaid Link, triggers sync
-  SpendingBreakdownChart.tsx      # recharts pie chart
-  TransactionsTable.tsx
-lib/
-  auth.ts                         # NextAuth config
-  plaid.ts                        # Plaid API client
-  prisma.ts                       # Prisma client singleton
-prisma/schema.prisma              # User, Account, Transaction, Budget models
+415-555-0011
 ```
 
-## Notes / next steps
+## OTP
 
-- `Budget` model exists in the schema but isn't wired into the UI yet —
-  natural next feature (compare spend-by-category against a monthly limit).
-- Currently supports one Plaid Item per sync call fan-out; multiple linked
-  institutions per user are supported by the schema and sync route already.
-- No route protection middleware yet beyond the `auth()` check inside
-  `dashboard/page.tsx` — fine for a single protected route, but add
-  `middleware.ts` if more protected routes are added.
+```
+123456
+```
+
+## Bank Name
+
+```
+Tartan Bank
+```
+
+## Username
+
+```
+user_good
+```
+
+## Password
+
+```
+pass_good
+```
+
+---
+
+# 📂 Project Structure
+
+```text
+personal-finance-dashboard
+│
+├── app
+│   ├── api
+│   ├── dashboard
+│   ├── login
+│   └── register
+│
+├── components
+├── lib
+│   ├── auth.ts
+│   ├── prisma.ts
+│   └── plaid.ts
+│
+├── prisma
+│   └── schema.prisma
+│
+├── public
+├── types
+├── prisma.config.ts
+├── package.json
+└── README.md
+```
+
+---
+
+# ⚡ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Puneet-2005/personal-finance-dashboard.git
+```
+
+Move into the project
+
+```bash
+cd personal-finance-dashboard
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Create a `.env` file and configure:
+
+```env
+DATABASE_URL=your_database_url
+
+AUTH_SECRET=your_secret
+
+PLAID_CLIENT_ID=your_client_id
+PLAID_SECRET=your_secret
+PLAID_ENV=sandbox
+```
+
+Generate Prisma Client
+
+```bash
+npx prisma generate
+```
+
+Push the schema to PostgreSQL
+
+```bash
+npx prisma db push
+```
+
+Run the development server
+
+```bash
+npm run dev
+```
+
+Open the application:
+
+```
+http://localhost:3000
+```
+
+---
+
+# 🔒 Security
+
+- Passwords are securely hashed using bcrypt.
+- Authentication is managed using NextAuth.
+- Sensitive API keys are stored in environment variables.
+- Plaid access tokens are handled securely on the server.
+
+---
+
+# 🎯 Future Improvements
+
+- AI-powered expense categorization
+- Monthly spending analytics
+- Budget notifications
+- CSV/PDF export
+- Investment portfolio tracking
+- Interactive financial charts
+- Multi-bank support
+- Mobile application
+
+---
+
+# 👨‍💻 Author
+
+**Puneet M P Bharadwaj**
+
+- GitHub: https://github.com/Puneet-2005
+
+---
+
+# 📜 License
+
+This project is created for educational and portfolio purposes.
