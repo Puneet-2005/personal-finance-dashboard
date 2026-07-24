@@ -19,7 +19,7 @@ A full-stack **Personal Finance Dashboard** built with **Next.js**, **TypeScript
 
 ---
 
-# 🛠 Tech Stack
+# 🛠 Tech Stack.
 
 | Category | Technology |
 |----------|------------|
