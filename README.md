@@ -4,7 +4,7 @@ A full-stack **Personal Finance Dashboard** built with **Next.js**, **TypeScript
 
 ---
 
-## 🚀 Features
+## 🚀 Features.
 
 - 🔐 Secure user authentication with NextAuth
 - 🔒 Password hashing using bcrypt
